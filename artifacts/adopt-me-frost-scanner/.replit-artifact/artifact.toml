@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Adopt Me Frost Value Scanner"
+description = "A focused scanner that identifies Adopt Me pets from uploaded images or video frames, matches only verified value data, and calculates the total Frost Value."
+version = "1.0.0"
+id = "artifacts/adopt-me-frost-scanner"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18971
+
+[services.development]
+run = "pnpm --filter @workspace/adopt-me-frost-scanner run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/adopt-me-frost-scanner", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/adopt-me-frost-scanner/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18971"
+BASE_PATH = "/"
